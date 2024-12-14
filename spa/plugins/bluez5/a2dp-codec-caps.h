@@ -192,6 +192,32 @@
 #define LDAC_SAMPLING_FREQ_176400	0x02
 #define LDAC_SAMPLING_FREQ_192000	0x01
 
+#define LHDC_V3_VENDOR_ID               0x0000053a
+#define LHDC_V3_CODEC_ID                0x4c33
+
+#define LHDC_V5_VENDOR_ID               0x0000053a
+#define LHDC_V5_CODEC_ID                0x4c35
+
+#define LHDC_CHANNEL_MODE_STEREO        0x03
+
+#define LHDC_BIT_DEPTH_16               0x02
+#define LHDC_BIT_DEPTH_24               0x01
+
+#define LHDC_VER3                       0x01
+
+#define LHDC_SAMPLING_FREQ_44100        0x08
+#define LHDC_SAMPLING_FREQ_48000        0x04
+#define LHDC_SAMPLING_FREQ_88200        0x02
+#define LHDC_SAMPLING_FREQ_96000        0x01
+
+#define LHDC_MAX_BIT_RATE_400K          0x02
+#define LHDC_MAX_BIT_RATE_500K          0x01
+#define LHDC_MAX_BIT_RATE_900K          0x00
+
+#define LHDC_CH_SPLIT_MODE_NONE         0x01
+#define LHDC_CH_SPLIT_MODE_TWS          0x02
+#define LHDC_CH_SPLIT_MODE_TWS_PLUS     0x04
+
 #define FASTSTREAM_VENDOR_ID            0x0000000a
 #define FASTSTREAM_CODEC_ID             0x0001
 
@@ -376,6 +402,44 @@ typedef struct {
         uint8_t sink_frequency:4;
         uint8_t source_frequency:4;
 } __attribute__ ((packed)) a2dp_faststream_t;
+
+typedef struct {
+	a2dp_vendor_codec_t info;
+	uint8_t frequency:4;
+	uint8_t bit_depth:2;
+	uint8_t jas:1;
+	uint8_t ar:1;
+	uint8_t version:4;
+	uint8_t max_bit_rate:2;
+	uint8_t low_latency:1;
+	uint8_t llac:1;
+	uint8_t ch_split_mode:4;
+	uint8_t meta:1;
+	uint8_t min_bitrate:1;
+	uint8_t larc:1;
+	uint8_t lhdc_v4:1;
+} __attribute__ ((packed)) a2dp_lhdc_v3_t;
+
+typedef struct {
+	a2dp_vendor_codec_t info;
+	uint8_t frequency:5;
+	uint8_t rfa1:3;
+	uint8_t bit_depth:3;
+	uint8_t rfa2:1;
+	uint8_t max_bit_rate:2;
+	uint8_t min_bit_rate:2;
+	uint8_t version:4;
+	uint8_t frame_len_5ms:1;
+	uint8_t rfa3:3;
+	uint8_t ar:1;
+	uint8_t jas:1;
+	uint8_t meta:1;
+	uint8_t rfa4:3;
+	uint8_t low_latency:1;
+	uint8_t reserved:1; // lossless?
+	uint8_t ar_on:1;
+	uint8_t rfa5:7;
+} __attribute__ ((packed)) a2dp_lhdc_v5_t;
 
 #elif __BYTE_ORDER == __BIG_ENDIAN
 

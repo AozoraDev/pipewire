@@ -78,6 +78,23 @@ if get_option('spa-plugins').allowed()
       endif
     endif
     summary({'LC3plus': lc3plus_dep.found()}, bool_yn: true, section: 'Bluetooth audio codecs')
+    lhdc_enc_dep = dependency('lhdcBT-enc', required : false)
+    if not lhdc_enc_dep.found()
+      lhdc_enc_lhdc_h_dep = cc.find_library('lhdcBT_enc', has_headers: ['lhdcBT.h'], required : get_option('bluez5-codec-lhdc'))
+      if lhdc_enc_lhdc_h_dep.found()
+        lhdc_enc_dep = declare_dependency(dependencies : [ lhdc_enc_lhdc_h_dep ])
+      endif
+    endif
+    summary({'LHDC V3 Encoder': lhdc_enc_dep.found()}, bool_yn: true, section: 'Bluetooth audio codecs')
+
+    lhdc_dec_dep = dependency('lhdcBT-dec', required : false)
+    if not lhdc_dec_dep.found()
+      lhdc_dec_lhdc_h_dep = cc.find_library('lhdcBT_dec', has_headers: ['lhdcBT_dec.h'], required : get_option('bluez5-codec-lhdc'))
+      if lhdc_dec_lhdc_h_dep.found()
+        lhdc_dec_dep = declare_dependency(dependencies : [ lhdc_dec_lhdc_h_dep ])
+      endif
+    endif
+    summary({'LHDC V3 Decoder': lhdc_enc_dep.found()}, bool_yn: true, section: 'Bluetooth audio codecs')
     if get_option('bluez5-codec-opus').enabled() and not opus_dep.found()
         error('bluez5-codec-opus enabled, but opus dependency not found')
     endif
